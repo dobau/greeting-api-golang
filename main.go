@@ -12,7 +12,7 @@ func main() {
 		c.JSON(200, gin.H{
 			"owner":      "Rafael Alves",
 			"greeting":   "Olá! Trabalho como Software Developer no time de Growth Online Payments, rotando para o time de Open Banking",
-			"repository": "https://github.com/dobau/greeting-api",
+			"repository": "https://github.com/dobau/greeting-api-golang",
 		})
 	})
 
