@@ -1,17 +1,32 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
+	"github.com/dobau/greeting-api-golang/rest"
 	"github.com/gin-gonic/gin"
 )
+
+type Greeting struct {
+	Greeting string `json:greeting`
+}
 
 func main() {
 	r := gin.Default()
 	r.GET("/greeting", addCors, func(c *gin.Context) {
+		// Create a Resty Client
+		rest := rest.New()
+
+		greeting := new(Greeting)
+		err := rest.Get("https://workshop-go-greeting.herokuapp.com/greet", http.Header{}, greeting)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, err)
+		}
+
 		c.JSON(200, gin.H{
 			"owner":      "Rafael Alves",
-			"greeting":   "Olá! Trabalho como Software Developer no time de Growth Online Payments, rotando para o time de Open Banking",
+			"greeting":   greeting.Greeting,
 			"repository": "https://github.com/dobau/greeting-api-golang",
 		})
 	})
